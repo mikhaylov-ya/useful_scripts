@@ -53,7 +53,6 @@ module.exports = function transformer(fileInfo, api) {
       continue;
     }
 
-    // Handle object typedef
     if (typeExpr === "Object") {
       const properties = lines
         .filter(l => l.startsWith("@property"))
@@ -71,7 +70,6 @@ module.exports = function transformer(fileInfo, api) {
     }
   }
 
-  // Inject imports
   const importLines = Array.from(importMap.entries()).map(([path, names]) =>
     `import type { ${Array.from(names).sort().join(", ")} } from "${path}";`
   );

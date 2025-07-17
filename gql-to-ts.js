@@ -53,17 +53,14 @@ function transformGqlFile(filePath) {
 }
 
 function transformAllGqlFiles(directory) {
-    // Read all files in the directory
     const files = fs.readdirSync(directory, { withFileTypes: true });
 
     for (const file of files) {
         const fullPath = path.join(directory, file.name);
 
         if (file.isDirectory()) {
-            // Recursively process subdirectories
             transformAllGqlFiles(fullPath);
         } else if (file.isFile() && path.extname(file.name) === '.gql') {
-            // Transform .gql files
             transformGqlFile(fullPath);
         }
     }

@@ -1,9 +1,9 @@
-// find-unused-gql.js
+
 const fs = require('fs');
 const path = require('path');
 
-const gqlDir = path.resolve(__dirname, '../ctx/frontend/src/graphql'); // <-- set your gql folder
-const projectDir = path.resolve(__dirname, '../ctx/frontend'); // <-- set your project root
+const gqlDir = path.resolve(__dirname, '../ctx/frontend/src/graphql'); // <-- папка с .gql файлами
+const projectDir = path.resolve(__dirname, '../ctx/frontend'); // <-- корень проекта
 
 // 1. Recursively collect all .gql files
 function getAllGqlFiles(dir) {
@@ -20,7 +20,6 @@ function getAllGqlFiles(dir) {
   return results;
 }
 
-// 2. Recursively collect all .vue, .js, .ts files
 function getAllCodeFiles(dir) {
   let results = [];
   fs.readdirSync(dir).forEach(file => {
@@ -33,8 +32,6 @@ function getAllCodeFiles(dir) {
   });
   return results;
 }
-
-// 3. Check if a file is referenced via require()
 function isGqlFileUsed(gqlFile, codeFiles) {
   const requirePattern = new RegExp(`(['"\`]${gqlFile.replace(/\\/g, '\\\\')}['"\`])`, 'g');
   return codeFiles.some(codeFile => {
@@ -42,8 +39,6 @@ function isGqlFileUsed(gqlFile, codeFiles) {
     return requirePattern.test(content);
   });
 }
-
-// MAIN
 const gqlFiles = getAllGqlFiles(gqlDir);
 const codeFiles = getAllCodeFiles(projectDir);
 
